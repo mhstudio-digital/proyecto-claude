@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caudal — El control financiero que tu negocio merece</title>
+<meta name="description" content="Caudal es el sistema operativo financiero para emprendedores y pequeños negocios de Latinoamérica. Flujo de caja, facturación e IVA en un solo lugar.">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+/* ===== Landing-specific ===== */
+.bg-fx { position: fixed; inset: 0; z-index: -1; overflow: hidden; }
+.blob { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .5; animation: float 18s ease-in-out infinite; }
+.blob.a { width: 620px; height: 620px; background: radial-gradient(circle, var(--accent), transparent 70%); top: -200px; right: -120px; }
+.blob.b { width: 520px; height: 520px; background: radial-gradient(circle, var(--c3), transparent 70%); bottom: -180px; left: -100px; animation-delay: -6s; opacity: .35; }
+.blob.c { width: 380px; height: 380px; background: radial-gradient(circle, var(--c2), transparent 70%); top: 40%; left: 50%; animation-delay: -12s; opacity: .22; }
+@keyframes float { 0%,100% { transform: translate(0,0) scale(1); } 33% { transform: translate(40px,-50px) scale(1.08); } 66% { transform: translate(-30px,30px) scale(.95); } }
+
+nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 6vw; backdrop-filter: blur(14px); background: color-mix(in srgb, var(--bg) 72%, transparent);
+  border-bottom: 1px solid var(--border); }
+nav .links { display: flex; gap: 30px; align-items: center; }
+nav .links a { color: var(--text-dim); font-weight: 500; font-size: 14.5px; transition: color .2s; }
+nav .links a:hover { color: var(--text); }
+nav .nav-cta { display: flex; gap: 10px; align-items: center; }
+
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 6vw; }
+section { padding: 92px 0; }
+
+/* hero */
+.hero { padding-top: 70px; text-align: center; }
+.hero .badge { display: inline-flex; align-items: center; gap: 8px; padding: 7px 15px; border-radius: 99px;
+  background: var(--surface); border: 1px solid var(--border); font-size: 13px; color: var(--text-dim); margin-bottom: 28px;
+  animation: rise .7s ease both; }
+.hero .badge b { color: var(--accent); }
+.hero h1 { font-size: clamp(38px, 6.4vw, 76px); letter-spacing: -0.04em; max-width: 14ch; margin: 0 auto 22px; animation: rise .7s .05s ease both; }
+.hero h1 .grad { background: linear-gradient(115deg, var(--accent), var(--c5)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hero p.lead { font-size: clamp(16px, 2vw, 20px); color: var(--text-dim); max-width: 56ch; margin: 0 auto 36px; animation: rise .7s .1s ease both; }
+.hero .hero-cta { display: flex; gap: 13px; justify-content: center; flex-wrap: wrap; animation: rise .7s .15s ease both; }
+.hero .btn { padding: 14px 26px; font-size: 15.5px; }
+.hero .micro { margin-top: 18px; font-size: 13px; color: var(--text-faint); animation: rise .7s .2s ease both; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px); } }
+
+/* dashboard preview */
+.preview { margin: 64px auto 0; max-width: 1000px; position: relative; animation: rise .9s .3s ease both; }
+.preview-frame { background: var(--surface); border: 1px solid var(--border-strong); border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg); overflow: hidden; }
+.preview-bar { display: flex; align-items: center; gap: 7px; padding: 13px 16px; border-bottom: 1px solid var(--border); background: var(--surface-2); }
+.preview-bar i { width: 11px; height: 11px; border-radius: 99px; background: var(--border-strong); display: inline-block; }
+.preview-body { padding: 22px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; }
+.pv-kpis { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; grid-column: 1 / -1; }
+.pv-kpi { background: var(--surface-2); border: 1px solid var(--border); border-radius: 13px; padding: 15px; }
+.pv-kpi .lbl { font-size: 11px; color: var(--text-faint); text-transform: uppercase; letter-spacing: .06em; }
+.pv-kpi .val { font-family: 'Bricolage Grotesque'; font-weight: 700; font-size: 24px; margin-top: 6px; }
+.pv-chart { background: var(--surface-2); border: 1px solid var(--border); border-radius: 13px; padding: 16px; }
+.pv-chart h5 { font-size: 13px; color: var(--text-dim); font-family: 'Hanken Grotesk'; font-weight: 600; margin-bottom: 10px; }
+.glow-ring { position: absolute; inset: -40px; border-radius: 40px; background: radial-gradient(circle at 50% 0%, var(--accent-glow), transparent 60%); z-index: -1; }
+
+.statbar { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px 56px; padding: 36px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-top: 70px; }
+.statbar .s { text-align: center; }
+.statbar .s b { display: block; font-family: 'Bricolage Grotesque'; font-size: 30px; color: var(--text); }
+.statbar .s span { font-size: 13px; color: var(--text-faint); }
+
+/* section headers */
+.sec-head { text-align: center; max-width: 620px; margin: 0 auto 56px; }
+.sec-head .kicker { color: var(--accent); font-weight: 600; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; }
+.sec-head h2 { font-size: clamp(28px, 4vw, 44px); margin: 14px 0; }
+.sec-head p { color: var(--text-dim); font-size: 17px; }
+
+/* features */
+.feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.feat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px; transition: transform .3s, border-color .3s; }
+.feat:hover { transform: translateY(-5px); border-color: var(--border-strong); }
+.feat .ico { width: 46px; height: 46px; border-radius: 13px; display: grid; place-items: center; margin-bottom: 18px;
+  background: var(--accent-soft); color: var(--accent); }
+.feat h3 { font-size: 19px; margin-bottom: 9px; }
+.feat p { color: var(--text-dim); font-size: 14.5px; }
+
+/* steps */
+.steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; counter-reset: s; }
+.step { position: relative; padding-top: 18px; }
+.step::before { counter-increment: s; content: counter(s); font-family: 'Bricolage Grotesque'; font-weight: 800;
+  font-size: 52px; color: transparent; -webkit-text-stroke: 1.4px var(--border-strong); position: absolute; top: -22px; left: -4px; }
+.step h3 { font-size: 19px; margin: 10px 0 8px; }
+.step p { color: var(--text-dim); font-size: 14.5px; }
+
+/* pricing */
+.price-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; align-items: stretch; }
+.plan { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 30px; display: flex; flex-direction: column; }
+.plan.featured { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), 0 20px 50px var(--accent-glow); position: relative; }
+.plan.featured .tag { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg,var(--accent),var(--accent-2)); color: var(--accent-ink); font-size: 12px; font-weight: 700; padding: 5px 14px; border-radius: 99px; }
+.plan h3 { font-size: 20px; }
+.plan .desc { color: var(--text-dim); font-size: 14px; margin: 6px 0 18px; min-height: 40px; }
+.plan .amt { font-family: 'Bricolage Grotesque'; font-size: 42px; font-weight: 700; }
+.plan .amt small { font-size: 15px; color: var(--text-faint); font-family: 'Hanken Grotesk'; font-weight: 500; }
+.plan ul { margin: 22px 0; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.plan li { display: flex; gap: 10px; font-size: 14.5px; color: var(--text-dim); align-items: flex-start; }
+.plan li svg { flex-shrink: 0; margin-top: 2px; color: var(--accent); }
+
+/* CTA */
+.cta-box { background: linear-gradient(135deg, var(--surface), var(--surface-2)); border: 1px solid var(--border-strong);
+  border-radius: var(--radius-xl); padding: 64px 40px; text-align: center; position: relative; overflow: hidden; }
+.cta-box::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 50% 120%, var(--accent-glow), transparent 60%); }
+.cta-box > * { position: relative; }
+.cta-box h2 { font-size: clamp(28px,4vw,46px); margin-bottom: 16px; }
+.cta-box p { color: var(--text-dim); font-size: 18px; margin-bottom: 30px; }
+
+footer { border-top: 1px solid var(--border); padding: 40px 6vw; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; color: var(--text-faint); font-size: 13.5px; }
+footer a { color: var(--text-dim); }
+
+/* auth modal tabs */
+.auth-tabs { display: flex; gap: 4px; background: var(--surface-2); padding: 4px; border-radius: 12px; margin-bottom: 22px; }
+.auth-tabs button { flex: 1; padding: 9px; border-radius: 9px; font-weight: 600; font-size: 14px; color: var(--text-dim); transition: all .2s; }
+.auth-tabs button.active { background: var(--surface); color: var(--text); box-shadow: var(--shadow-sm); }
+.divider { display: flex; align-items: center; gap: 12px; color: var(--text-faint); font-size: 12px; margin: 18px 0; }
+.divider::before, .divider::after { content: ""; height: 1px; background: var(--border); flex: 1; }
+
+.theme-toggle { width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center; background: var(--surface-2); border: 1px solid var(--border); color: var(--text-dim); transition: all .2s; }
+.theme-toggle:hover { color: var(--text); border-color: var(--border-strong); }
+
+@media (max-width: 880px) {
+  nav .links { display: none; }
+  .feat-grid, .steps, .price-grid { grid-template-columns: 1fr; }
+  .preview-body { grid-template-columns: 1fr; }
+  .pv-kpis { grid-template-columns: 1fr 1fr; }
+  section { padding: 64px 0; }
+}
+.chart-tip { position: fixed; z-index: 11000; pointer-events: none; background: var(--surface); border: 1px solid var(--border-strong);
+  padding: 7px 11px; border-radius: 9px; font-size: 12.5px; font-weight: 600; box-shadow: var(--shadow); display: none; white-space: nowrap; }
+</style>
+</head>
+<body>
+<div class="bg-fx"><div class="blob a"></div><div class="blob b"></div><div class="blob c"></div></div>
+
+<svg width="0" height="0" style="position:absolute"><defs>
+  <linearGradient id="caudalGrad" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="var(--accent)"/><stop offset="1" stop-color="var(--c5)"/>
+  </linearGradient></defs></svg>
+
+<nav>
+  <a href="#" class="logo"><svg class="mark" viewBox="0 0 32 32" fill="none">
+    <rect width="32" height="32" rx="9" fill="url(#caudalGrad)"/>
+    <path d="M7 12c3.2 0 3.2 4 6.4 4s3.2-4 6.4-4 3.2 4 6.2 4" stroke="var(--accent-ink)" stroke-width="2.2" stroke-linecap="round" fill="none" opacity=".9"/>
+    <path d="M7 19c3.2 0 3.2 4 6.4 4s3.2-4 6.4-4 3.2 4 6.2 4" stroke="var(--accent-ink)" stroke-width="2.2" stroke-linecap="round" fill="none" opacity=".55"/>
+  </svg>Caudal</a>
+  <div class="links">
+    <a href="#producto">Producto</a>
+    <a href="#como">Cómo funciona</a>
+    <a href="#precios">Precios</a>
+  </div>
+  <div class="nav-cta">
+    <button class="theme-toggle" id="themeBtn" title="Cambiar tema"></button>
+    <button class="btn btn-subtle" onclick="openAuth('login')">Entrar</button>
+    <button class="btn btn-primary btn-sm" onclick="openAuth('signup')">Crear cuenta</button>
+  </div>
+</nav>
+
+<header class="hero wrap">
+  <div class="badge">🌎 Hecho para negocios de Latinoamérica · <b>IVA y colones incluidos</b></div>
+  <h1>El control financiero que tu negocio <span class="grad">de verdad merece</span></h1>
+  <p class="lead">Caudal reúne flujo de caja, facturación, clientes e impuestos en un solo lugar. Deja el cuaderno y el Excel: entiende tu dinero en segundos y toma mejores decisiones.</p>
+  <div class="hero-cta">
+    <button class="btn btn-primary" onclick="openAuth('signup')">Empezar gratis</button>
+    <button class="btn btn-ghost" onclick="enterDemo()">Ver demo en vivo →</button>
+  </div>
+  <div class="micro">Sin tarjeta · Tus datos viven en tu dispositivo · Listo en 30 segundos</div>
+
+  <div class="preview">
+    <div class="glow-ring"></div>
+    <div class="preview-frame">
+      <div class="preview-bar"><i></i><i></i><i></i></div>
+      <div class="preview-body">
+        <div class="pv-kpis">
+          <div class="pv-kpi"><div class="lbl">Balance</div><div class="val" style="color:var(--accent)">₡8.4M</div></div>
+          <div class="pv-kpi"><div class="lbl">Ingresos · mes</div><div class="val">₡5.1M</div></div>
+          <div class="pv-kpi"><div class="lbl">IVA por pagar</div><div class="val" style="color:var(--warn)">₡412k</div></div>
+        </div>
+        <div class="pv-chart"><h5>Flujo de caja</h5><canvas id="pvArea" height="170"></canvas></div>
+        <div class="pv-chart"><h5>Gastos por categoría</h5><canvas id="pvDonut" height="170"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="statbar">
+    <div class="s"><b>+30%</b><span>menos tiempo en cuentas</span></div>
+    <div class="s"><b>13%</b><span>IVA calculado solo</span></div>
+    <div class="s"><b>6 meses</b><span>de proyección de caja</span></div>
+    <div class="s"><b>100%</b><span>tus datos, tu dispositivo</span></div>
+  </div>
+</header>
+
+<section id="producto" class="wrap">
+  <div class="sec-head">
+    <span class="kicker">Todo en uno</span>
+    <h2>Tu negocio completo, en una sola pantalla</h2>
+    <p>Cada función pensada para el día a día de un emprendedor o una pyme latinoamericana.</p>
+  </div>
+  <div class="feat-grid" id="featGrid"></div>
+</section>
+
+<section id="como" class="wrap">
+  <div class="sec-head">
+    <span class="kicker">Simple de verdad</span>
+    <h2>De cero a control total en 3 pasos</h2>
+  </div>
+  <div class="steps">
+    <div class="step"><h3>Registra tus movimientos</h3><p>Anota ingresos y gastos en segundos. Caudal categoriza y calcula el IVA por ti.</p></div>
+    <div class="step"><h3>Mira el panorama</h3><p>Tu dashboard muestra balance, flujo de caja, gastos y proyecciones en tiempo real.</p></div>
+    <div class="step"><h3>Factura y decide</h3><p>Genera facturas para tus clientes, controla pagos y toma decisiones con datos reales.</p></div>
+  </div>
+</section>
+
+<section id="precios" class="wrap">
+  <div class="sec-head">
+    <span class="kicker">Precios claros</span>
+    <h2>Planes que crecen contigo</h2>
+    <p>Empieza gratis. Sube de plan cuando tu negocio lo pida. Precios en colones, sin sorpresas.</p>
+  </div>
+  <div class="price-grid" id="priceGrid"></div>
+</section>
+
+<section class="wrap">
+  <div class="cta-box">
+    <h2>Tu dinero merece claridad</h2>
+    <p>Únete a los negocios que ya dejaron el caos de las cuentas atrás.</p>
+    <button class="btn btn-primary" style="padding:15px 30px;font-size:16px" onclick="openAuth('signup')">Crear mi cuenta gratis</button>
+  </div>
+</section>
+
+<footer>
+  <div class="logo" style="font-size:18px"><svg class="mark" viewBox="0 0 32 32" fill="none" style="width:24px;height:24px"><rect width="32" height="32" rx="9" fill="url(#caudalGrad)"/><path d="M7 13c3.2 0 3.2 4 6.4 4s3.2-4 6.4-4 3.2 4 6.2 4" stroke="var(--accent-ink)" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg>Caudal</div>
+  <span>© 2026 Caudal · Finance OS para Latinoamérica · Hecho en Costa Rica 🇨🇷</span>
+  <span>Privacidad · Términos · Contacto</span>
+</footer>
+
+<!-- AUTH MODAL -->
+<div class="modal-backdrop hidden" id="authModal">
+  <div class="modal">
+    <div class="auth-tabs">
+      <button id="tabLogin" class="active" onclick="switchAuth('login')">Entrar</button>
+      <button id="tabSignup" onclick="switchAuth('signup')">Crear cuenta</button>
+    </div>
+
+    <div id="signupFields" class="hidden">
+      <div class="field"><label>Nombre completo</label><input class="input" id="suName" placeholder="Valeria Méndez"></div>
+      <div class="field"><label>Nombre del negocio</label><input class="input" id="suBiz" placeholder="Mi Negocio"></div>
+    </div>
+    <div class="field"><label>Correo</label><input class="input" id="auEmail" type="email" placeholder="tu@correo.com"></div>
+    <div class="field"><label>Contraseña</label><input class="input" id="auPass" type="password" placeholder="••••••••"></div>
+
+    <button class="btn btn-primary btn-block" id="authSubmit" onclick="submitAuth()">Entrar</button>
+    <div class="divider">o</div>
+    <button class="btn btn-ghost btn-block" onclick="enterDemo()">Explorar con datos de demostración</button>
+    <p style="text-align:center;font-size:12px;color:var(--text-faint);margin-top:16px">Todo se guarda localmente en tu navegador. Esto es una demostración técnica.</p>
+  </div>
+</div>
+
+<script src="assets/store.js"></script>
+<script src="assets/charts.js"></script>
+<script>
+/* ---------- theme ---------- */
+const sunIco = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+const moonIco = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>';
+function applyTheme(t){ document.documentElement.setAttribute('data-theme', t); localStorage.setItem('caudal:theme', t);
+  document.getElementById('themeBtn').innerHTML = t === 'dark' ? moonIco : sunIco; }
+applyTheme(localStorage.getItem('caudal:theme') || 'dark');
+document.getElementById('themeBtn').onclick = () => { const cur = document.documentElement.getAttribute('data-theme'); applyTheme(cur === 'dark' ? 'light' : 'dark'); drawPreview(); };
+
+/* ---------- features ---------- */
+const features = [
+  ['Dashboard en vivo','Balance, ingresos, gastos y proyección de caja actualizados al instante con gráficos interactivos.','M3 3v18h18M7 14l3-4 3 3 5-7'],
+  ['Flujo de caja','Visualiza entradas y salidas mes a mes. Detecta a tiempo cuándo se aprieta la caja.','M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6'],
+  ['IVA automático','Calcula el 13% de impuesto sobre cada movimiento y muestra cuánto debes declarar.','M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11'],
+  ['Facturación','Crea facturas profesionales para tus clientes y controla pagadas, pendientes y vencidas.','M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M9 13h6M9 17h4'],
+  ['Clientes','Tu cartera de clientes con cuánto te ha comprado cada uno y su historial.','M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8M23 21v-2a4 4 0 00-3-3.9'],
+  ['Reportes y exportación','Estados de resultados, reporte de IVA y exportación de todos tus datos en un clic.','M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3'],
+];
+document.getElementById('featGrid').innerHTML = features.map(([t,d,p])=>`
+  <div class="feat"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="${p}"/></svg></div>
+  <h3>${t}</h3><p>${d}</p></div>`).join('');
+
+/* ---------- pricing ---------- */
+const plans = [
+  ['Emprende','Para quien empieza a ordenar sus finanzas.','0',['Movimientos ilimitados','Dashboard completo','Cálculo de IVA','1 negocio','Exportar datos'],false],
+  ['Negocio','Para pymes que quieren crecer con control.','9.900',['Todo lo de Emprende','Facturación a clientes','Reportes avanzados','Proyección de caja','Soporte prioritario'],true],
+  ['Estudio','Para agencias y contadores con varios clientes.','24.900',['Todo lo de Negocio','Negocios ilimitados','Marca personalizada','Acceso multiusuario','Asesor dedicado'],false],
+];
+const check = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';
+document.getElementById('priceGrid').innerHTML = plans.map(([n,d,amt,feats,feat])=>`
+  <div class="plan ${feat?'featured':''}">${feat?'<span class="tag">Más popular</span>':''}
+    <h3>${n}</h3><div class="desc">${d}</div>
+    <div class="amt">₡${amt}<small>/mes</small></div>
+    <ul>${feats.map(f=>`<li>${check}<span>${f}</span></li>`).join('')}</ul>
+    <button class="btn ${feat?'btn-primary':'btn-ghost'} btn-block" onclick="openAuth('signup')">${amt==='0'?'Empezar gratis':'Elegir '+n}</button>
+  </div>`).join('');
+
+/* ---------- auth ---------- */
+let authMode = 'login';
+function openAuth(mode){ document.getElementById('authModal').classList.remove('hidden'); switchAuth(mode); }
+function switchAuth(mode){
+  authMode = mode;
+  document.getElementById('tabLogin').classList.toggle('active', mode==='login');
+  document.getElementById('tabSignup').classList.toggle('active', mode==='signup');
+  document.getElementById('signupFields').classList.toggle('hidden', mode!=='signup');
+  document.getElementById('authSubmit').textContent = mode==='login' ? 'Entrar' : 'Crear cuenta';
+}
+function submitAuth(){
+  const email = document.getElementById('auEmail').value.trim();
+  const pass = document.getElementById('auPass').value;
+  if(!email || !pass){ toast('Completa correo y contraseña','error'); return; }
+  try{
+    if(authMode==='signup'){
+      const name = document.getElementById('suName').value.trim() || 'Usuario';
+      const biz = document.getElementById('suBiz').value.trim() || 'Mi Negocio';
+      Store.register({ name, email, password: pass, businessName: biz });
+      toast('¡Cuenta creada! Bienvenido a Caudal');
+    } else {
+      Store.login({ email, password: pass });
+      toast('Sesión iniciada');
+    }
+    setTimeout(()=> location.href='app.html', 500);
+  }catch(e){ toast(e.message,'error'); }
+}
+function enterDemo(){ Store.seedDemo(); toast('Cargando demo de Café Volcán…','info'); setTimeout(()=> location.href='app.html', 600); }
+document.getElementById('authModal').addEventListener('click', e => { if(e.target.id==='authModal') e.target.classList.add('hidden'); });
+document.addEventListener('keydown', e => { if(e.key==='Enter' && !document.getElementById('authModal').classList.contains('hidden')) submitAuth(); });
+
+if (Store.currentUser()) { /* already logged: offer quick continue */ }
+
+/* ---------- preview charts ---------- */
+function drawPreview(){
+  const P = Charts.palette();
+  Charts.area(document.getElementById('pvArea'),
+    ['Ene','Feb','Mar','Abr','May','Jun'],
+    [{name:'Ingresos',color:P[0],data:[3.2,3.8,3.5,4.4,4.7,5.1].map(x=>x*1e6)},
+     {name:'Gastos',color:P[1],data:[2.6,2.9,3.1,3.0,3.4,3.6].map(x=>x*1e6)}], {currency:'CRC'});
+  Charts.donut(document.getElementById('pvDonut'), [
+    {label:'Inventario',value:1400000,color:P[0]},{label:'Salarios',value:1850000,color:P[2]},
+    {label:'Alquiler',value:650000,color:P[1]},{label:'Otros',value:430000,color:P[3]},
+  ], {currency:'CRC', centerLabel:'Gastos'});
+}
+setTimeout(drawPreview, 100);
+window.addEventListener('resize', () => { clearTimeout(window._rz); window._rz = setTimeout(drawPreview, 200); });
+</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caudal — Tu negocio</title>
+<meta name="description" content="Panel financiero de Caudal: flujo de caja, movimientos, facturas, clientes y reportes.">
+<link rel="stylesheet" href="assets/styles.css">
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+
+<!-- gradient def para el logo -->
+<svg width="0" height="0" style="position:absolute"><defs>
+  <linearGradient id="caudalGrad" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="var(--accent)"/><stop offset="1" stop-color="var(--c5)"/>
+  </linearGradient></defs></svg>
+
+<div class="backdrop-m" onclick="toggleSidebar()"></div>
+
+<div class="app">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <a href="#dashboard" class="logo">
+      <svg class="mark" viewBox="0 0 32 32" fill="none">
+        <rect width="32" height="32" rx="9" fill="url(#caudalGrad)"/>
+        <path d="M7 12c3.2 0 3.2 4 6.4 4s3.2-4 6.4-4 3.2 4 6.2 4" stroke="var(--accent-ink)" stroke-width="2.2" stroke-linecap="round" fill="none" opacity=".9"/>
+        <path d="M7 19c3.2 0 3.2 4 6.4 4s3.2-4 6.4-4 3.2 4 6.2 4" stroke="var(--accent-ink)" stroke-width="2.2" stroke-linecap="round" fill="none" opacity=".55"/>
+      </svg>Caudal
+    </a>
+
+    <div class="nav-group">Negocio</div>
+    <nav id="navList"></nav>
+
+    <div class="side-foot">
+      <div class="nav-group" style="margin-top:0">Sesión</div>
+      <div class="user-chip" id="sideUser" onclick="location.hash='ajustes'"></div>
+      <div class="text-faint" style="font-size:11px;padding:8px 12px 0" id="sideBiz"></div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <header class="topbar">
+      <div class="flex items-center gap-3">
+        <button class="icon-btn menu-btn" onclick="toggleSidebar()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        </button>
+        <div>
+          <h1 id="pageTitle">Resumen</h1>
+          <div class="sub" id="pageSub">Tu negocio de un vistazo</div>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn btn-primary btn-sm" onclick="openTxModal()">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          Nuevo movimiento
+        </button>
+      </div>
+    </header>
+
+    <main class="content view" id="content"></main>
+  </div>
+</div>
+
+<div id="toasts"></div>
+
+<script src="assets/store.js"></script>
+<script src="assets/charts.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
